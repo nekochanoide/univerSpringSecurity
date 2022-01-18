@@ -1,0 +1,24 @@
+<div th:fragment="header">
+    <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+            <span class="fs-4">Учебные заведения</span>
+        </a>
+
+        <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+            <a class="me-3 py-2 text-dark text-decoration-none" href="/addresses">Все адреса</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="/parents">Все родители</a>
+        </nav>
+
+        <div sec:authorize="isAuthenticated()">
+            <p th:inline="text">Ваш ID: [[${#httpServletRequest.remoteUser}]]</p>
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Sign Out"/>
+            </form>
+        </div>
+        <div sec:authorize="!isAuthenticated()">
+            <a href="/login">
+                <button class="btn btn-success">Войти</button>
+            </a>
+        </div>
+    </div>
+</div>

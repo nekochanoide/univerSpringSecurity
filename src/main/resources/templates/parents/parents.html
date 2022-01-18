@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Родители</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+<header th:insert="blocks/header :: header"></header>
+
+<div class="container mt-5">
+    <h1>Родители <a href="/parents/add/">
+        <button class="btn btn-success">Добавить</button>
+    </a></h1>
+    <div th:each="parentsCouple : ${parents}" class="alert alert-info mt-2">
+        <p th:if="${parentsCouple.getMomFullName() != null}">Мама: [[${parentsCouple.getMomFullName()}]]</p>
+        <p th:if="${parentsCouple.getDadFullName() != null}">Папа: [[${parentsCouple.getDadFullName()}]]</p>
+        <p th:if="${parentsCouple.getAddress() != null && parentsCouple.getAddress().getAddress() != null}">Адрес
+            проживания: [[${parentsCouple.getAddress().getAddress()}]]</p>
+        <p>
+            <a th:href="${'/parents/edit/' + parentsCouple.getId()}">Редактировать адрес проживания</a>
+        </p>
+        <div th:each="child : ${parentsCouple.getChildren()}">
+            <div>Ребенок: [[${child.getFullName() + '; Возраст: ' + child.getAge()}]]</div>
+            <div>Номер места учебы: [[${child.getEducationalEstablishment() == null ? 'Нет данных' :
+                child.getEducationalEstablishment().getNumber()}]]
+            </div>
+            <p>
+                <a th:href="${'/children/' + child.getId()}">Поменять учебное заведение</a>
+            </p>
+        </div>
+        <br>
+        <a th:href="${'/children/add/' + parentsCouple.getId()}"><button class="btn btn-success">Добавить ребенка</button></a>
+    </div>
+</div>
+
+<div th:insert="blocks/footer :: footer"></div>
+
+</body>
+</html>
